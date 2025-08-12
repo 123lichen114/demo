@@ -1,0 +1,17 @@
+{
+    "vin": {
+        "type": "string",
+        "description": "车辆id"
+    },
+    "action_sequence": {
+        "type": "array[string]", 
+        "description": "详细地阅读表格内容，结合每一行各个字段的信息，针对每一行，推测这个用户正在做的行为，用自然语言（中文为主，专有英文词可用英文）描述，你需要将每一行的行为结合各个字段尽可能详细地描述出来，以及对应的format_time_ms字段值，填入value的对应字段。\n如果这个表有n行记录，那你就要填入n个行为描述。\n如果表中没有记录，则value字段应为空数组。",
+        "value": [{
+            "action": "",
+            "time_range": {
+                "start_time": "",
+                "end_time": ""
+            }
+        }]
+    }
+}
