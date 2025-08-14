@@ -6,7 +6,7 @@ dir = str(Path(__file__).parent.resolve())
 sys.path.append(dir)
 from config import Config
 from use_llm.My_LLM import ask_LLMmodel
-from Util import *
+from Handle_csv.Util import *
 import pandas as pd
 from Handle_csv.scenario.navigation.navigation_info import get_navigation_info
 from Handle_csv.scenario.navigation.navigation_poi_time import plot_route_timeline, plot_route
@@ -45,21 +45,21 @@ def intention_recognize(df,config):
 
 def get_target_info(Navi_info:navi_info, scenario_type):
     config = Navi_info.config
-    json_navi_data = Navi_info.Get_json_info()['poi_info_list']
-    str_navi_data = str(json_navi_data)
+    navi_data = Navi_info.Get_json_info()['poi_info_list']
+    str_navi_data = str(navi_data)
     if scenario_type == 'navigation_json':
         print("Processing navigation scenario...")
-        return json_navi_data
+        return json.dumps(navi_data,ensure_ascii=False, indent=2)
     
     elif scenario_type == 'nagivation_draw':
         print("Drawinging navigation scenario...")
 
-        plot_buf = plot_route_timeline(json_navi_data)
+        plot_buf = plot_route_timeline(navi_data)
         return plot_buf
     
     elif scenario_type == 'route_map':
         print("Drawinging route scenario...")
-        fig = plot_route(json_navi_data)
+        fig = plot_route(navi_data)
         return fig
     
     elif scenario_type == 'user_overall_profile':

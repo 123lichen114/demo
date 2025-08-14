@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from io import BytesIO
-from Util import parse_datetime
+from Handle_csv.Util import parse_datetime
 from use_GaoDe_api.geo import get_location_geo
 from use_GaoDe_api.draw import draw_ordered_points
 from use_llm.My_LLM import ask_LLMmodel
+from collections import defaultdict
+import os
 # 核心函数：绘制用户路线时序图（纵轴时间段视觉增强）
 def plot_route_timeline(json_data):
     """
@@ -179,3 +181,111 @@ def plot_route(json_data):
     print("locations = ",locations)
     # 返回路线图
     return draw_ordered_points(locations, key='6617df78ec04efcba67789cc7e02895b', save_path=None)
+
+def plot_route_by_date(json_data, save_dir=None):
+    """
+    按日期划分导航数据，并为每个日期绘制路线图
+    
+    参数:
+        json_data: 导航数据列表（即nav_data）
+        save_dir: 可选，保存图片的目录路径
+        
+    返回:
+        字典，键为日期字符串，值为对应日期的地图二进制数据或None（失败时）
+    """
+    print("开始按日期处理导航数据...")
+    
+    # 1. 按日期分组
+    date_groups = defaultdict(list)
+    for item in json_data:
+        # 提取日期部分（假设start_time格式为"YYYY-MM-DD HH:MM:SS"或类似）
+        try:
+            start_time = item['start_time']
+            date_str = start_time.split(' ')[0]  # 分割出日期部分
+            date_groups[date_str].append(item)
+        except (KeyError, IndexError) as e:
+            print(f"处理数据项时出错：{str(e)}，跳过该数据项")
+            continue
+    
+    if not date_groups:
+        print("错误：没有有效的数据可处理")
+        return {}
+    
+    print(f"成功按日期分组，共{len(date_groups)}天数据")
+    
+    # 2. 为每个日期绘制路线图
+    results = {}
+    key = '6617df78ec04efcba67789cc7e02895b'  # API密钥
+    
+    for date_str, items in date_groups.items():
+        print(f"\n处理{date_str}的数据...")
+        
+        # 提取该日期的所有poi_location
+        try:
+            poi_location_list = [item['poi_location'] for item in items]
+            locations = []
+            for location in poi_location_list:
+                # 将"经度,纬度"字符串转换为[float, float]
+                lon, lat = location.split(',')
+                locations.append([float(lon), float(lat)])
+            
+            print(f"{date_str}共有{len(locations)}个地点")
+            
+            # 生成保存路径（如果指定了保存目录）
+            save_path = None
+            if save_dir:
+                os.makedirs(save_dir, exist_ok=True)
+                save_path = os.path.join(save_dir, f"route_{date_str}.png")
+            
+            # 调用绘图函数
+            map_data = draw_ordered_points(
+                locations=locations,
+                key=key,
+                save_path=save_path
+            )
+            
+            results[date_str] = map_data
+            
+            if map_data:
+                print(f"{date_str}的路线图生成成功")
+            else:
+                print(f"{date_str}的路线图生成失败")
+                
+        except Exception as e:
+            print(f"处理{date_str}时出错：{str(e)}")
+            results[date_str] = None
+    
+    return results
+
+# 使用示例
+if __name__ == "__main__":
+    # 示例导航数据
+    sample_data = [
+        {'start_location': '121.370007,31.192397',
+         'poi': '金地西郊风华',
+         'type': '住宅区',
+         'poi_location': '121.434522,31.2165',
+         'start_time': '2025-06-20 22:43:23.708',
+         'end_time': '2025-06-20 23:24:45.718'},
+        {'start_location': '121.380007,31.182397',
+         'poi': '万达广场',
+         'type': '商业区',
+         'poi_location': '121.424522,31.2065',
+         'start_time': '2025-06-20 19:43:23.708',
+         'end_time': '2025-06-20 20:10:45.718'},
+        {'start_location': '121.390007,31.172397',
+         'poi': '金地西郊风华',
+         'type': '住宅区',
+         'poi_location': '121.434522,31.2165',
+         'start_time': '2025-06-21 07:15:23.708',
+         'end_time': '2025-06-21 07:45:45.718'},
+    ]
+    
+    # 调用按日期绘制路线图的函数
+    # 可指定save_dir参数保存图片，如save_dir="route_maps"
+    results = plot_route_by_date(sample_data)
+    
+    # 输出结果信息
+    for date, data in results.items():
+        status = "成功" if data else "失败"
+        print(f"{date}的路线图生成{status}")
