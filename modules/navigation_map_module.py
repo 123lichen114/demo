@@ -2,12 +2,18 @@ import streamlit as st
 import folium
 from streamlit_folium import st_folium
 from .base import BaseModule
-from Handle_csv.scenario.navigation.navigation_info import get_navigation_info
+# 替换直接导入，使用缓存版本
+from utils.cache_utils import cache_navigation_info
 from Handle_csv.scenario.navigation.interactive_maps import create_daily_navigation_maps
 from utils.logger_setup import setup_logger
-
+import time
 # 初始化日志
 logger = setup_logger()
+
+# 新增：缓存地图生成函数（原create_daily_navigation_maps可能被重复调用）
+@st.cache_resource(show_spinner="正在生成导航地图...")
+def cache_daily_maps(nav_data):
+    return create_daily_navigation_maps(nav_data)
 
 class NavigationMapModule(BaseModule):
     """导航地图可视化模块"""
@@ -22,19 +28,23 @@ class NavigationMapModule(BaseModule):
         self.daily_maps = []
     
     def process_data(self) -> None:
-        """处理数据并生成地图"""
+        """处理数据并通过缓存获取结果"""
         if self.data is None:
             self.daily_maps = []
             return
             
         try:
-            # 获取导航信息
-            self.navi_info = get_navigation_info(self.data)
+            #计时
+            start_time = time.time()
+            # 使用缓存的导航信息，避免重复计算
+            self.navi_info = cache_navigation_info(self.data)
             self.nav_data = self.navi_info.Get_json_info()['poi_info_list']
             
-            # 生成每日导航地图
-            self.daily_maps = create_daily_navigation_maps(self.nav_data)
-            logger.info(f"成功生成 {len(self.daily_maps)} 张每日导航地图")
+            # 使用缓存的地图生成结果
+            self.daily_maps = cache_daily_maps(self.nav_data)
+            end_time = time.time()
+            logger.info(f"导航地图生成耗时: {end_time - start_time:.2f}秒")
+            logger.info(f"成功加载 {len(self.daily_maps)} 张每日导航地图")
             
         except KeyError as e:
             error_msg = f"导航数据格式错误，缺少关键字段: {str(e)}"
@@ -53,8 +63,11 @@ class NavigationMapModule(BaseModule):
             st.info("没有可显示的导航地图数据，请上传包含完整导航信息的CSV文件")
             return
             
-        # 显示日期选择器
-        date_options = [f"第 {i+1} 天 ({map.location[0]:.4f}, {map.location[1]:.4f})" for i, map in enumerate(self.daily_maps)]
+        # 显示日期选择器（优化显示格式）
+        date_options = [
+            f"{map.location[0]:.4f}, {map.location[1]:.4f} - {i+1}天" 
+            for i, map in enumerate(self.daily_maps)
+        ]
         
         selected_idx = st.selectbox(
             "选择日期查看导航路线",
@@ -62,7 +75,7 @@ class NavigationMapModule(BaseModule):
             format_func=lambda x: date_options[x]
         )
         
-        # 显示选中的地图
+        # 显示选中的地图（直接从缓存读取，无需重新生成）
         selected_map = self.daily_maps[selected_idx]
         st_folium(
             selected_map,

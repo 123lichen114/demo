@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from .base import BaseModule
-from Handle_csv.scenario.navigation.navigation_info import get_navigation_info
+# 替换直接导入，使用缓存版本
+from utils.cache_utils import cache_navigation_info
 from Handle_csv.handle import get_target_info
 from Handle_csv.scenario.navigation.origin_destination_heatmap import plot_origin_destination_heatmap
 from Handle_csv.scenario.navigation.visualization import (
@@ -13,6 +14,11 @@ from utils.logger_setup import setup_logger
 
 # 初始化模块专用日志
 logger = setup_logger()
+
+# 新增：缓存可视化相关计算（如果有重复调用的绘图函数）
+@st.cache_resource(show_spinner="正在生成路线时间线...")
+def cache_route_timeline(navi_info):
+    return get_target_info(navi_info, 'nagivation_draw')
 
 class NavigationVisualizationModule(BaseModule):
     """导航数据可视化模块"""
@@ -27,13 +33,13 @@ class NavigationVisualizationModule(BaseModule):
         self.json_data = None  # 存储JSON数据用于后续展示
     
     def process_data(self) -> None:
-        """处理导航数据"""
+        """处理导航数据（使用缓存结果）"""
         if self.data is None:
             return
             
-        # 获取导航信息
+        # 获取导航信息（使用缓存，避免重复计算）
         try:
-            self.navi_info = get_navigation_info(self.data)
+            self.navi_info = cache_navigation_info(self.data)
             self.nav_data = self.navi_info.Get_json_info()['poi_info_list']
             self.json_data = self.navi_info.Get_json_info()  # 保存JSON数据
             logger.info("导航数据处理成功")
@@ -46,7 +52,7 @@ class NavigationVisualizationModule(BaseModule):
             self.json_data = None
     
     def render_output(self) -> None:
-        """渲染导航数据可视化结果 - 右侧显示用户标签表格"""
+        """渲染导航数据可视化结果"""
         if self.data is None or self.navi_info is None or self.nav_data is None:
             st.info("请先上传包含导航数据的CSV文件")
             return
@@ -60,56 +66,44 @@ class NavigationVisualizationModule(BaseModule):
             st.metric("用户居住地", self.navi_info.home if self.navi_info.home else "未知")
         
         try:
-            # 第一部分：左右布局 - 导航数据详情和用户特征标签表格
+            # 左侧：导航数据详情
             left_col, right_col = st.columns(2, gap="large")
-            container_height = 500  # 左右容器统一高度，确保平齐
+            container_height = 500
             
-            # 左侧：导航数据详情（支持滚动）
             with left_col:
                 st.subheader("导航数据详情")
                 with st.container(height=container_height):
                     st.json(self.json_data, expanded=False)
             
-            # 右侧：用户基本特征标签表格（高度与左侧平齐）
+            # 右侧：用户基本特征标签表格
             with right_col:
                 st.subheader("用户基本特征标签")
-                # 获取特征标签数据
+                # 使用缓存减少重复计算
                 feature_label = get_target_info(self.navi_info, 'user_basic_feature_label')
-                
-                # 处理标签数据
-
                 labels = feature_label.show_basic_feature_label()     
                 labels_df = pd.DataFrame(
                     list(labels.items()),
                     columns=["特征", "值"]
                 )
-
-                # 显示表格，高度与左侧平齐
                 with st.container(height=container_height):
                     if labels_df.empty:
                         st.info("暂无用户特征标签数据")
                     else:
-                        # 使用dataframe显示表格，支持滚动且高度自适应容器
                         st.dataframe(
                             labels_df,
                             use_container_width=True,
-                            hide_index=True,
-                            column_config={
-                                "特征": st.column_config.TextColumn(width="medium"),
-                                "值": st.column_config.TextColumn(width="medium")
-                            }
+                            hide_index=True
                         )
             
-            # 第二部分：下方五个图表（两排放置）
+            # 路线时间线（使用缓存）
             st.subheader("导航数据可视化")
-            
-            # 第一行图表：路线时间线和路线地图
             row1_col1, row1_col2 = st.columns(2, gap="medium")
             
             with row1_col1:
                 with st.container(height=400):
                     st.subheader("路线时间线")
-                    plot_buf = get_target_info(self.navi_info, 'nagivation_draw')
+                    # 使用缓存的路线时间线结果
+                    plot_buf = cache_route_timeline(self.navi_info)
                     if plot_buf:
                         st.image(plot_buf, use_column_width=True)
                     else:

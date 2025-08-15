@@ -6,7 +6,7 @@ import seaborn as sns
 from .base import BaseModule
 
 # 设置中文字体
-plt.rcParams["font.family"] = ["WenQuanYi Micro Hei", "Heiti TC"]
+plt.rcParams["font.family"] = ["Heiti TC"]
 sns.set(font="Heiti TC", font_scale=1.0)
 
 class DataVisualizationModule(BaseModule):
