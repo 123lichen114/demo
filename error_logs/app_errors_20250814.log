@@ -1,0 +1,92 @@
+2025-08-14 15:40:34,163 - dashboard_app - navigation_visualization:process_data:41 - ERROR - 处理导航数据时出错: the JSON object must be str, bytes or bytearray, not NoneType
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 35, in process_data
+    self.navi_info = get_navigation_info(self.data)
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/navigation_info.py", line 152, in get_navigation_info
+    poi_info_list = extract_poi_from_navigation_related_row(navigation_related_row)
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/navigation_info.py", line 68, in extract_poi_from_navigation_related_row
+    location_str = get_location(row)
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/navigation_info.py", line 45, in get_location
+    json_dict = json.loads(row['status_json'])
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/json/__init__.py", line 339, in loads
+    raise TypeError(f'the JSON object must be str, bytes or bytearray, '
+TypeError: the JSON object must be str, bytes or bytearray, not NoneType
+2025-08-14 15:42:25,875 - dashboard_app - navigation_visualization:render_output:119 - ERROR - 导航数据可视化失败: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 108, in render_output
+    persona = get_target_info(self.navi_info, 'user_overall_profile')
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/handle.py", line 38, in get_target_info
+    user_p = Navi_Persona(str_navi_data,config)
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/navigation_persona.py", line 15, in __init__
+    self.commuting_time = self.get_commuting_time(poi_info)
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/navigation_persona.py", line 83, in get_commuting_time
+    poi_info_dict = json.loads(poi_info)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/json/decoder.py", line 353, in raw_decode
+    obj, end = self.scan_once(s, idx)
+json.decoder.JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)
+2025-08-14 15:44:39,651 - dashboard_app - navigation_visualization:render_output:119 - ERROR - 导航数据可视化失败: 'str' object has no attribute 'Get_json_info'
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 108, in render_output
+    persona = get_target_info(self.navi_info, 'user_overall_profile')
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/handle.py", line 38, in get_target_info
+    user_p = Navi_Persona(str_navi_data,config)
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/navigation_persona.py", line 43, in __init__
+    self.basic_feature_label = Basic_feature_label(poi_info,config).basic_features_labels_mapping
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/navigation_feature_label_new.py", line 25, in __init__
+    poi_info_list = navi_info.Get_json_info()['poi_info_list']
+AttributeError: 'str' object has no attribute 'Get_json_info'
+2025-08-14 16:03:51,250 - dashboard_app - navigation_visualization:render_output:106 - ERROR - 生成饼状图时出错: "导航数据缺少目的地类型字段（'poi_type'或'destination_type'）"
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 101, in render_output
+    plot_destination_type_pie(self.nav_data)
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/visualization.py", line 63, in plot_destination_type_pie
+    raise KeyError("导航数据缺少目的地类型字段（'poi_type'或'destination_type'）")
+KeyError: "导航数据缺少目的地类型字段（'poi_type'或'destination_type'）"
+2025-08-14 16:09:23,193 - dashboard_app - navigation_visualization:render_output:106 - ERROR - 生成饼状图时出错: 导航数据为空，无法绘制饼状图
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 101, in render_output
+    plot_destination_type_pie(self.nav_data)
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/visualization.py", line 55, in plot_destination_type_pie
+    raise ValueError("导航数据为空，无法绘制饼状图")
+ValueError: 导航数据为空，无法绘制饼状图
+2025-08-14 16:45:48,497 - dashboard_app - navigation_visualization:render_output:175 - ERROR - 导航数据可视化失败: The `spec` argument to `st.columns` must be either a positive integer (number of columns) or a list of positive numbers (width ratios of the columns). See [documentation](https://docs.streamlit.io/develop/api-reference/layout/st.columns) for more information.
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 101, in render_output
+    cols = st.columns(len(row_items))
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/metrics_util.py", line 443, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/elements/layouts.py", line 360, in columns
+    raise StreamlitInvalidColumnSpecError()
+streamlit.errors.StreamlitInvalidColumnSpecError: The `spec` argument to `st.columns` must be either a positive integer (number of columns) or a list of positive numbers (width ratios of the columns). See [documentation](https://docs.streamlit.io/develop/api-reference/layout/st.columns) for more information.
+2025-08-14 16:54:25,468 - dashboard_app - navigation_visualization:render_output:177 - ERROR - 导航数据可视化失败: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 81, in render_output
+    labels = feature_label.show_basic_feature_label() or {}
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/pandas/core/generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-08-14 17:03:43,895 - dashboard_app - navigation_visualization:render_output:177 - ERROR - 导航数据可视化失败: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 83, in render_output
+    if labels:
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/pandas/core/generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-08-14 17:04:43,474 - dashboard_app - navigation_visualization:render_output:177 - ERROR - 导航数据可视化失败: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 83, in render_output
+    if labels:
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/pandas/core/generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-08-14 17:05:21,187 - dashboard_app - navigation_visualization:render_output:177 - ERROR - 导航数据可视化失败: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 83, in render_output
+    if labels:
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/pandas/core/generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().

@@ -55,7 +55,7 @@ def visualize_boundary(keywords: str, interactive: bool = False, save_path=None)
     if not interactive:
         fig, ax = plt.subplots(figsize=(12, 10))
         # 设置中文字体
-        plt.rcParams["font.family"] = ["WenQuanYi Micro Hei", "Heiti TC"]
+        plt.rcParams["font.family"] = ["Heiti TC"]
         
         # 绘制边界
         gdf.plot(ax=ax, edgecolor='darkblue', facecolor='lightblue', alpha=0.6, linewidth=2)

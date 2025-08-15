@@ -2,9 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from io import BytesIO
 from Handle_csv.Util import parse_datetime
-from use_GaoDe_api.geo import get_location_geo
 from use_GaoDe_api.draw import draw_ordered_points
-from use_llm.My_LLM import ask_LLMmodel
 from collections import defaultdict
 import os
 # 核心函数：绘制用户路线时序图（纵轴时间段视觉增强）
@@ -13,7 +11,7 @@ def plot_route_timeline(json_data):
     优化纵轴显示，使时间段在视觉上更长更清晰
     只在右上角显示地点对应的颜色块图例
     """
-    plt.rcParams["font.family"] = ["Heiti TC", "Arial Unicode MS"]
+    plt.rcParams["font.family"] = ["Heiti TC"]
     plt.rcParams["axes.unicode_minus"] = False
     
     
@@ -172,13 +170,13 @@ def plot_route_timeline(json_data):
 
 
 def plot_route(json_data):
-    print("json_data = ",json_data)
+    # print("json_data = ",json_data)
     poi_location_list = [item['poi_location'] for item in json_data]
     locations =[]
     for location in poi_location_list:
         location = [float(i) for i in location.split(',')]
         locations.append(location)
-    print("locations = ",locations)
+    # print("locations = ",locations)
     # 返回路线图
     return draw_ordered_points(locations, key='6617df78ec04efcba67789cc7e02895b', save_path=None)
 

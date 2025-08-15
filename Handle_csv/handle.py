@@ -13,35 +13,7 @@ from Handle_csv.scenario.navigation.navigation_poi_time import plot_route_timeli
 from scenario.navigation.navigation_persona import Navi_Persona
 from scenario.navigation.navigation_feature_label_new import Basic_feature_label
 from scenario.navigation.basic_info import navi_info
-# 自定义函数：分析 DataFrame 基本统计信息
-def analyze_dataframe(df):
-    """分析 DataFrame 并返回统计信息的 JSON"""
-    try:
-        # 基本统计信息
-        stats = {
-            "行数": len(df),
-            "列数": len(df.columns),
-            "列名": list(df.columns),
-            "数据类型": {col: str(df[col].dtype) for col in df.columns},
-        }
-        return json.dumps(stats, ensure_ascii=False, indent=2)
-    except Exception as e:
-        return json.dumps({"error": f"分析失败: {str(e)}"}, indent=2)
 
-def intention_recognize(df,config):
-    prompt = config.get_prompt()
-    # df1 = df.drop('desc', axis=1).dropna(axis=1, how='all') 
-    selected_columns = ['action_type', 'operate_target', 'input','voice_dc','taskmaster_actionInfo','format_time_ms','event_key']
-    df1 = df[selected_columns]
-    if df1 is not None:
-        # 调用 LLM 模型处理数据
-        response = ask_LLMmodel(df1, prompt)
-        output_json_info = extract_json_from_string(response)
-        output_json_info['vin']['value'] = df.loc[1,'vin']
-        
-        return json.dumps(output_json_info, ensure_ascii=False, indent=2)
-    else:
-        return "Error reading the CSV file."
 
 def get_target_info(Navi_info:navi_info, scenario_type):
     config = Navi_info.config
@@ -62,9 +34,9 @@ def get_target_info(Navi_info:navi_info, scenario_type):
         fig = plot_route(navi_data)
         return fig
     
-    elif scenario_type == 'user_overall_profile':
-        user_p = Navi_Persona(str_navi_data,config)
-        return user_p.show_persona()
+    # elif scenario_type == 'user_overall_profile':
+    #     user_p = Navi_Persona(str_navi_data,config)
+    #     return user_p.show_persona()
     
     elif scenario_type == 'user_basic_feature_label':
         user_basic_feature_label = Basic_feature_label(Navi_info,config)
@@ -73,6 +45,36 @@ def get_target_info(Navi_info:navi_info, scenario_type):
     else:
         return json.dumps({"error": "Unsupported scenario type."}, ensure_ascii=False, indent=2)
 
+
+# # 自定义函数：分析 DataFrame 基本统计信息
+# def analyze_dataframe(df):
+#     """分析 DataFrame 并返回统计信息的 JSON"""
+#     try:
+#         # 基本统计信息
+#         stats = {
+#             "行数": len(df),
+#             "列数": len(df.columns),
+#             "列名": list(df.columns),
+#             "数据类型": {col: str(df[col].dtype) for col in df.columns},
+#         }
+#         return json.dumps(stats, ensure_ascii=False, indent=2)
+#     except Exception as e:
+#         return json.dumps({"error": f"分析失败: {str(e)}"}, indent=2)
+
+# def intention_recognize(df,config): #识别意图功能 已废弃
+#     prompt = config.get_prompt()
+#     # df1 = df.drop('desc', axis=1).dropna(axis=1, how='all') 
+#     selected_columns = ['action_type', 'operate_target', 'input','voice_dc','taskmaster_actionInfo','format_time_ms','event_key']
+#     df1 = df[selected_columns]
+#     if df1 is not None:
+#         # 调用 LLM 模型处理数据
+#         response = ask_LLMmodel(df1, prompt)
+#         output_json_info = extract_json_from_string(response)
+#         output_json_info['vin']['value'] = df.loc[1,'vin']
+        
+#         return json.dumps(output_json_info, ensure_ascii=False, indent=2)
+#     else:
+#         return "Error reading the CSV file."
 if __name__ == "__main__":
     1
 

@@ -1,168 +1,104 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from datetime import datetime
+from typing import List, Dict, Any
 
-def analyze_navigation_data(nav_data):
+# 设置中文字体
+plt.rcParams["font.sans-serif"] = ["SimHei"]
+plt.rcParams["font.family"] = ["Heiti TC"]
+plt.rcParams["axes.unicode_minus"] = False
+
+def plot_destination_time_heatmap(nav_data: List[Dict[str, Any]]) -> None:
     """
-    分析导航数据，生成目的地与时间段相关性热力图和目的地类型饼状图
+    绘制目的地与时间段相关性热力图
     
     参数:
-        nav_data: 包含导航信息的列表，每个元素是一个字典
+        nav_data: 导航数据列表，包含目的地和时间信息
     """
-    # print("lc code")
-    # 设置中文显示
-    plt.rcParams["font.family"] = ["Heiti TC"]
-    plt.rcParams["axes.unicode_minus"] = False  # 解决负号显示问题
-    
-    # 转换为DataFrame并预处理
+    if not nav_data:
+        raise ValueError("导航数据为空，无法绘制热力图")  # 检查输入数据是否为空
+        
+    # 转换数据格式，将列表形式的导航数据转换为DataFrame格式
     df = pd.DataFrame(nav_data)
     
-    # 检查必要的列是否存在
-    required_columns = ['poi', 'type', 'start_time']
-    for col in required_columns:
-        if col not in df.columns:
-            raise ValueError(f"导航数据缺少必要的字段: {col}")
+    # 提取日期和小时信息
+    if 'start_time' not in df.columns:
+        raise KeyError("导航数据缺少'start_time'字段")
+        
+    # 确保时间列是datetime类型
+    df['start_time'] = pd.to_datetime(df['start_time'], errors='coerce')
+    df = df.dropna(subset=['start_time'])
     
-    # 处理时间数据
-    try:
-        df['start_time'] = pd.to_datetime(df['start_time'])
-    except Exception as e:
-        raise ValueError(f"时间格式转换错误: {str(e)}")
-    
-    # 生成两种分析图表
-    plot_destination_time_correlation(df)
-    plot_destination_type_pie(df)
-    
-    return df
-
-def plot_destination_time_correlation(df):
-    """绘制目的地与导航时间段的相关性热力图"""
-    # 定义时间段划分函数
-    def get_time_period(hour):
-        if 0 <= hour < 6:
-            return '凌晨（0-5）'
-        elif 6 <= hour < 9:
-            return '早高峰（6-8）'
-        elif 9 <= hour < 12:
-            return '上午（9-11）'
-        elif 12 <= hour < 14:
-            return '午休（12-13）'
-        elif 14 <= hour < 18:
-            return '下午（14-17）'
-        elif 18 <= hour < 21:
-            return '晚高峰（18-20）'
-        else:
-            return '夜间（21-23）'
-    
-    # 提取小时并划分时间段
+    # 提取小时和目的地名称
     df['hour'] = df['start_time'].dt.hour
-    df['time_period'] = df['hour'].apply(get_time_period)
+    df['poi'] = df.get('poi', df.get('poi_name', '未知'))
     
-    # 按时间顺序排序时间段
-    period_order = [
-        '凌晨（0-5）', '早高峰（6-8）', '上午（9-11）',
-        '午休（12-13）', '下午（14-17）', '晚高峰（18-20）', '夜间（21-23）'
-    ]
-    df['time_period'] = pd.Categorical(df['time_period'], categories=period_order, ordered=True)
+    # 统计每个目的地在每个小时的出现次数
+    heatmap_data = df.groupby(['poi', 'hour']).size().unstack(fill_value=0)
     
-    # 计算交叉表
-    corr_table = pd.crosstab(
-        index=df['poi'],
-        columns=df['time_period'],
-        values=df['start_time'],
-        aggfunc='count'
-    ).fillna(0)
-    
-    # 绘制热力图
+    # 创建热力图
     plt.figure(figsize=(12, 8))
-    sns.heatmap(
-        corr_table,
-        annot=True,
-        fmt='.0f',
-        cmap='YlOrRd',
-        cbar_kws={'label': '导航次数'}
-    )
-    
-    plt.title('目的地与导航时间段的相关性热力图', fontsize=15)
-    plt.xlabel('导航时间段', fontsize=12)
+    sns.heatmap(heatmap_data, cmap="YlOrRd", annot=True, fmt="d", cbar_kws={'label': '出现次数'})
+    plt.title('目的地与时间段相关性热力图', fontsize=15)
+    plt.xlabel('时间段（小时）', fontsize=12)
     plt.ylabel('目的地', fontsize=12)
     plt.tight_layout()
-    plt.show()
     
-    return corr_table
 
-def plot_destination_type_pie(df, threshold=0.05):
-    """优化后的饼状图：显示数量、百分比和总数"""
+def plot_destination_type_pie(nav_data: List[Dict[str, Any]]) -> None:
+    """
+    绘制目的地类型饼状图
+    
+    参数:
+        nav_data: 导航数据列表，包含目的地类型信息
+    """
+    if not nav_data:
+        raise ValueError("导航数据为空，无法绘制饼状图")
+        
+    # 转换数据格式
+    df = pd.DataFrame(nav_data)
+    
+    # 提取目的地类型
+    type_column = 'type'
+    
     # 统计各类型数量
-    type_counts = df['type'].value_counts()
-    total = type_counts.sum()  # 计算总导航次数
+    type_counts = df[type_column].value_counts()
     
-    # 合并低频类型为“其他”
-    if total > 0:
-        others = type_counts[type_counts / total < threshold].sum()
-        if others > 0:
-            type_counts = type_counts[type_counts / total >= threshold]
-            type_counts['其他'] = others
+    # 合并占比过小的类型
+    threshold = 0.03  # 3%阈值
+    type_counts = type_counts / type_counts.sum()
+    small_types = type_counts[type_counts < threshold].sum()
+    type_counts = type_counts[type_counts >= threshold]
+    if small_types > 0:
+        type_counts['其他'] = small_types
     
-    # 绘制饼图
+    # 创建饼状图
     plt.figure(figsize=(10, 8))
-    
-    # 自定义标签：包含类型名称和数量（例如“住宅区: 20次”）
-    labels = [f'{label}: {count}次' for label, count in zip(type_counts.index, type_counts)]
-    
-    # 绘制饼图，autopct显示百分比
     wedges, texts, autotexts = plt.pie(
-        type_counts,
-        labels=labels,  # 使用带数量的标签
-        autopct='%1.1f%%',  # 显示百分比
-        startangle=90,
-        wedgeprops={'edgecolor': 'white', 'linewidth': 1},
-        textprops={'fontsize': 11}  # 标签字体大小
+        type_counts, 
+        labels=type_counts.index,
+        autopct='%1.1f%%',
+        startangle=140,
+        wedgeprops=dict(width=0.4)  # 环形图效果
     )
     
-    # 美化百分比标签
-    plt.setp(autotexts, size=10, color='black', weight='bold')
-    
-    # 标题显示总导航次数
-    plt.title(f'导航目的地类型分布（总次数：{total}次）', fontsize=15)
-    
-    plt.axis('equal')  # 保证圆形
+    # 美化文本
+    plt.setp(texts, size=12)
+    plt.setp(autotexts, size=10, color="black", weight="bold")
+    plt.title('目的地类型分布', fontsize=15)
     plt.tight_layout()
-    plt.show()
-    
-    return type_counts  # 返回各类型数量统计
 
-# 使用示例
 if __name__ == "__main__":
     # 示例数据
-    sample_data = [
-        {'start_location': '121.370007,31.192397',
-         'poi': '金地西郊风华',
-         'type': '住宅区',
-         'poi_location': '121.434522,31.2165',
-         'start_time': '2025-06-20 22:43:23.708',
-         'end_time': '2025-06-20 23:24:45.718'},
-        {'start_location': '121.380007,31.182397',
-         'poi': '万达广场',
-         'type': '商业区',
-         'poi_location': '121.424522,31.2065',
-         'start_time': '2025-06-20 19:43:23.708',
-         'end_time': '2025-06-20 20:10:45.718'},
-        {'start_location': '121.390007,31.172397',
-         'poi': '金地西郊风华',
-         'type': '住宅区',
-         'poi_location': '121.434522,31.2165',
-         'start_time': '2025-06-21 07:15:23.708',
-         'end_time': '2025-06-21 07:45:45.718'},
-        {'start_location': '121.400007,31.162397',
-         'poi': '人民公园',
-         'type': '休闲区',
-         'poi_location': '121.414522,31.1965',
-         'start_time': '2025-06-21 15:30:23.708',
-         'end_time': '2025-06-21 16:00:45.718'},
-    ]
-    
-    # 调用分析函数
-    result_df = analyze_navigation_data(sample_data)
-    print("数据分析完成！")
+    nav_data = [
+        {"start_time": "2023-10-01 08:00:00", "poi": "公司", "type": "工作"},
+        {"start_time": "2023-10-01 09:00:00", "poi": "餐厅", "type": "餐饮"},
+        {"start_time": "2023-10-01 10:00:00", "poi": "公司", "type": "工作"},
+        {"start_time": "2023-10-01 11:00:00", "poi": "咖啡厅", "type": "休闲"},
+        {"start_time": "2023-10-01 12:00:00", "poi": "餐厅", "type": "餐饮"},
+        {"start_time": "2023-10-01 13:00:00", "poi": "公司", "type": "工作"}]
+
+    plot_destination_time_heatmap(nav_data)
+    plt.show()
+    plot_destination_type_pie(nav_data)
+    plt.show()

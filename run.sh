@@ -1,1 +1,1 @@
-streamlit run app.py --server.port 8501 --server.address 0.0.0.0 --server.enableCORS False
+streamlit run app.py --server.port 8501 --server.address 0.0.0.0 --server.enableCORS False --server.maxUploadSize=500

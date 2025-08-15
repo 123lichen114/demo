@@ -1,7 +1,7 @@
 from use_GaoDe_api.geo import *
 from use_GaoDe_api.district import *
 from use_GaoDe_api.draw import *
-from Util import *
+from Handle_csv.Util import *
 from use_llm.My_LLM import ask_LLMmodel
 class poi_info: #单次出行的起点和终点信息
     def __init__(self,info_dict: dict)-> None:

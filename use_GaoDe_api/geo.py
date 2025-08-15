@@ -86,7 +86,7 @@ def get_driving_path_info(ORIGIN,DESTINATION):
     }
     response = requests.get(url, params = params)
     jd = response.json()
-    sleep(0.5)
+    sleep(0.3)
     return jd
 
 def get_driving_path_distance_by_loc(ORIGIN,DESTINATION):#输入是起点终点的经纬度

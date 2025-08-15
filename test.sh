@@ -1,0 +1,1 @@
+streamlit run web_test.py --server.port 8504 --server.maxUploadSize=500
