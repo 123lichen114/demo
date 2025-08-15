@@ -60,3 +60,5 @@ def setup_logger():
     # 记录启动日志（仅首次初始化时输出）
     logger.info(f"服务启动，日志存储目录：{_LOG_DIR}")
     return logger
+
+# 使用示例
