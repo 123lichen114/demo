@@ -1,0 +1,84 @@
+2025-08-15 16:40:10,406 - dashboard_app - logger_setup:setup_logger:43 - INFO - 服务启动，日志存储目录：Logger/20250815_164010
+2025-08-15 16:40:10,522 - dashboard_app - cache_manager:_load_offline_cache:28 - INFO - 成功加载离线缓存，包含 1 个文件缓存
+2025-08-15 16:40:21,792 - dashboard_app - app:_load_data:55 - INFO - 从离线缓存加载文件: all_sequence_HLX14B178R0001811_merged.csv
+2025-08-15 16:40:23,787 - dashboard_app - app:_load_data:70 - ERROR - 文件读取错误: Cannot hash argument 'self' (of type `modules.navigation_visualization.NavigationVisualizationModule`) in '_cached_process'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_resource
+def _cached_process(_self, ...):
+    ...
+```
+            
+Traceback (most recent call last):
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 619, in _to_bytes
+    reduce_data = obj.__reduce__()
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/copyreg.py", line 70, in _reduce_ex
+    raise TypeError(f"cannot pickle {cls.__name__!r} object")
+TypeError: cannot pickle 'function' object
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 450, in _make_value_key
+    update_hash(
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableTypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/app.py", line 65, in _load_data
+    module.set_data(self.data.copy(), filename)  # 传递文件名用于缓存
+  File "/Users/lichen18/Documents/Project/demo/modules/base.py", line 31, in set_data
+    self.cached_output = self._cached_process(
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 175, in __call__
+    return self._cached_func(self._instance, *args, **kwargs)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 234, in _get_or_create_cached_value
+    value_key = _make_value_key(
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 458, in _make_value_key
+    raise UnhashableParamError(cache_type, func, arg_name, arg_value, exc)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 450, in _make_value_key
+    update_hash(
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+  File "/Users/lichen18/miniforge3/envs/ic/lib/python3.9/site-packages/streamlit/runtime/caching/hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableParamError: Cannot hash argument 'self' (of type `modules.navigation_visualization.NavigationVisualizationModule`) in '_cached_process'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_resource
+def _cached_process(_self, ...):
+    ...
+```
+            

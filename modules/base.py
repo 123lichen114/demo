@@ -3,7 +3,7 @@ import pandas as pd
 from abc import ABC, abstractmethod
 from typing import Optional, Dict, Any
 from utils.cache_manager import cache_manager
-
+from utils.logger_setup import setup_logger
 class BaseModule(ABC):
     """所有功能模块的基类"""
     # def __init__(
@@ -51,6 +51,7 @@ class BaseModule(ABC):
         self.background_color: Optional[str] = None
         self.border: bool = True
         self.height: Optional[int] = None
+        self.logger = setup_logger()
     
     def set_data(self, data: pd.DataFrame, filename: Optional[str] = None) -> None:
         """设置模块数据并关联文件名"""

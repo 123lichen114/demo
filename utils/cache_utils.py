@@ -6,3 +6,4 @@ from Handle_csv.scenario.navigation.navigation_info import get_navigation_info
 def cache_navigation_info(df):
     """缓存导航信息计算结果，避免重复调用get_navigation_info"""
     return get_navigation_info(df)
+

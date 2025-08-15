@@ -1,25 +1,22 @@
+# demo/utils/cache_manager.py
+# 将所有print替换为logger.info
 import os
 import pickle
 import hashlib
 import pandas as pd
 from pathlib import Path
 from typing import Dict, Any, Optional
+from utils.logger_setup import setup_logger  # 新增导入
 
 class CacheManager:
     """支持离线缓存的缓存管理器，将缓存数据持久化到本地文件"""
     
     def __init__(self):
-        # 缓存文件存储路径（项目根目录下的.cache文件夹）
         self.cache_dir = Path(".cache")
         self.cache_file = self.cache_dir / "offline_cache.pkl"
-        
-        # 确保缓存目录存在
         self.cache_dir.mkdir(exist_ok=True)
-        
-        # 初始化缓存结构：{文件名: {'df': DataFrame, 'content_dict': {显示项: 结果}}}
         self.cache: Dict[str, Dict[str, Any]] = {}
-        
-        # 尝试加载已保存的离线缓存
+        self.logger = setup_logger()  # 初始化日志对象
         self._load_offline_cache()
     
     def _load_offline_cache(self) -> None:
@@ -28,14 +25,13 @@ class CacheManager:
             if self.cache_file.exists() and self.cache_file.stat().st_size > 0:
                 with open(self.cache_file, 'rb') as f:
                     self.cache = pickle.load(f)
-                print(f"成功加载离线缓存，包含 {len(self.cache)} 个文件缓存")
+                self.logger.info(f"成功加载离线缓存，包含 {len(self.cache)} 个文件缓存")  # 修改为logger
         except (pickle.UnpicklingError, EOFError, Exception) as e:
-            print(f"加载离线缓存失败: {str(e)}，将使用新缓存")
-            # 缓存文件损坏时创建新文件
+            self.logger.error(f"加载离线缓存失败: {str(e)}，将使用新缓存")  # 修改为logger
             if self.cache_file.exists():
                 backup_file = self.cache_file.with_suffix(".pkl.bak")
                 os.rename(self.cache_file, backup_file)
-                print(f"损坏的缓存已备份至 {backup_file}")
+                self.logger.info(f"损坏的缓存已备份至 {backup_file}")  # 修改为logger
             self.cache = {}
     
     def _save_offline_cache(self) -> None:

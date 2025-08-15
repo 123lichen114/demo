@@ -1,22 +1,20 @@
+# demo/modules/navigation_map_module.py
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
 from .base import BaseModule
-# 替换直接导入，使用缓存版本
 from utils.cache_utils import cache_navigation_info
 from Handle_csv.scenario.navigation.interactive_maps import create_daily_navigation_maps
-from utils.logger_setup import setup_logger
 import time
-# 初始化日志
-logger = setup_logger()
 
-# 新增：缓存地图生成函数（原create_daily_navigation_maps可能被重复调用）
+# 移除原有logger初始化
+
 @st.cache_resource(show_spinner="正在生成导航地图...")
 def cache_daily_maps(nav_data):
     return create_daily_navigation_maps(nav_data)
 
 class NavigationMapModule(BaseModule):
-    """导航地图可视化模块"""
+    """导航路线地图可视化模块"""
     
     def __init__(self, **kwargs):
         super().__init__(
@@ -34,28 +32,26 @@ class NavigationMapModule(BaseModule):
             return
             
         try:
-            #计时
+            # 计时
             start_time = time.time()
-            # 使用缓存的导航信息，避免重复计算
             self.navi_info = cache_navigation_info(self.data)
             self.nav_data = self.navi_info.Get_json_info()['poi_info_list']
-            
-            # 使用缓存的地图生成结果
             self.daily_maps = cache_daily_maps(self.nav_data)
             end_time = time.time()
-            logger.info(f"导航地图生成耗时: {end_time - start_time:.2f}秒")
-            logger.info(f"成功加载 {len(self.daily_maps)} 张每日导航地图")
+            self.logger.info(f"导航地图生成耗时: {end_time - start_time:.2f}秒")  # 修改为self.logger
+            self.logger.info(f"成功加载 {len(self.daily_maps)} 张每日导航地图")  # 修改为self.logger
             
         except KeyError as e:
             error_msg = f"导航数据格式错误，缺少关键字段: {str(e)}"
             st.error(error_msg)
-            logger.error(error_msg, exc_info=True)
+            self.logger.error(error_msg, exc_info=True)  # 修改为self.logger
             self.daily_maps = []
         except Exception as e:
             error_msg = f"处理导航地图数据时出错: {str(e)}"
             st.error(error_msg)
-            logger.error(error_msg, exc_info=True)
+            self.logger.error(error_msg, exc_info=True)  # 修改为self.logger
             self.daily_maps = []
+        self.output = self.daily_maps
     
     def render_output(self) -> None:
         """渲染交互式地图"""

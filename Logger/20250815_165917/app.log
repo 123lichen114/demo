@@ -1,0 +1,19 @@
+2025-08-15 16:59:17,054 - dashboard_app - logger_setup:setup_logger:43 - INFO - 服务启动，日志存储目录：Logger/20250815_165917
+2025-08-15 16:59:17,173 - dashboard_app - cache_manager:_load_offline_cache:28 - INFO - 成功加载离线缓存，包含 1 个文件缓存
+2025-08-15 16:59:26,951 - dashboard_app - app:_load_data:55 - INFO - 从离线缓存加载文件: all_sequence_HLX14B178R0001811_merged.csv
+2025-08-15 16:59:37,074 - dashboard_app - app:_load_data:70 - ERROR - 文件读取错误: 'NavigationVisualizationModule' object has no attribute 'logger'
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 39, in process_data
+    self.logger.info("导航数据处理成功")
+AttributeError: 'NavigationVisualizationModule' object has no attribute 'logger'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/app.py", line 65, in _load_data
+    module.set_data(self.data.copy(), filename)  # 传递文件名用于缓存
+  File "/Users/lichen18/Documents/Project/demo/modules/base.py", line 59, in set_data
+    self.process_data()  # 数据更新后自动处理
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_visualization.py", line 43, in process_data
+    self.logger.error(error_msg, exc_info=True)
+AttributeError: 'NavigationVisualizationModule' object has no attribute 'logger'

@@ -52,6 +52,7 @@ class Basic_feature_label:
         basic_features_labels_mapping = {}
         with open(template_json, 'r') as f:
             basic_features_labels_mapping = json.load(f)
+
         for feature,labels in basic_features_labels_mapping.items():
             if feature == "通勤基础":
                 # ret_info = self.sub_classify_6(poi_info_list)

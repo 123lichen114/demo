@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from .base import BaseModule
-# 替换直接导入，使用缓存版本
 from utils.cache_utils import cache_navigation_info
 from Handle_csv.handle import get_target_info
 from Handle_csv.scenario.navigation.origin_destination_heatmap import plot_origin_destination_heatmap
@@ -10,19 +9,14 @@ from Handle_csv.scenario.navigation.visualization import (
     plot_destination_time_heatmap,
     plot_destination_type_pie
 )
-from utils.logger_setup import setup_logger
+from Handle_csv.scenario.navigation.navigation_poi_time import plot_route_timeline, plot_route
 
-# 初始化模块专用日志
-logger = setup_logger()
-
-# 新增：缓存可视化相关计算（如果有重复调用的绘图函数）
 @st.cache_resource(show_spinner="正在生成路线时间线...")
 def cache_route_timeline(navi_info):
     return get_target_info(navi_info, 'nagivation_draw')
 
 class NavigationVisualizationModule(BaseModule):
     """导航数据可视化模块"""
-    
     def __init__(self, **kwargs):
         super().__init__(
             title="导航数据分析",
@@ -42,14 +36,15 @@ class NavigationVisualizationModule(BaseModule):
             self.navi_info = cache_navigation_info(self.data)
             self.nav_data = self.navi_info.Get_json_info()['poi_info_list']
             self.json_data = self.navi_info.Get_json_info()  # 保存JSON数据
-            logger.info("导航数据处理成功")
+            self.logger.info("导航数据处理成功") 
         except Exception as e:
             error_msg = f"处理导航数据时出错: {str(e)}"
             st.error(error_msg)
-            logger.error(error_msg, exc_info=True)
+            self.logger.error(error_msg, exc_info=True)
             self.navi_info = None
             self.nav_data = None
             self.json_data = None
+        
     
     def render_output(self) -> None:
         """渲染导航数据可视化结果"""
@@ -103,7 +98,7 @@ class NavigationVisualizationModule(BaseModule):
                 with st.container(height=400):
                     st.subheader("路线时间线")
                     # 使用缓存的路线时间线结果
-                    plot_buf = cache_route_timeline(self.navi_info)
+                    plot_buf = get_target_info(self.navi_info, 'nagivation_draw')
                     if plot_buf:
                         st.image(plot_buf, use_column_width=True)
                     else:
@@ -121,7 +116,7 @@ class NavigationVisualizationModule(BaseModule):
                     except Exception as e:
                         error_msg = f"生成热力图时出错: {str(e)}"
                         st.error(error_msg)
-                        logger.error(error_msg, exc_info=True)
+                        self.logger.error(error_msg, exc_info=True)
             
             # 第二行图表：目的地与时间段热力图和目的地类型分布
             row2_col1, row2_col2 = st.columns(2, gap="medium")
@@ -136,7 +131,7 @@ class NavigationVisualizationModule(BaseModule):
                     except Exception as e:
                         error_msg = f"生成热力图时出错: {str(e)}"
                         st.error(error_msg)
-                        logger.error(error_msg, exc_info=True)
+                        self.logger.error(error_msg, exc_info=True)
             
             with row2_col2:
                 with st.container(height=400):
@@ -148,23 +143,9 @@ class NavigationVisualizationModule(BaseModule):
                     except Exception as e:
                         error_msg = f"生成饼状图时出错: {str(e)}"
                         st.error(error_msg)
-                        logger.error(error_msg, exc_info=True)
-            
-            # # 第三行图表：起点-终点热力图
-            # with st.container(height=500):
-            #     st.subheader("起点-终点热力图")
-            #     grid_size = st.slider("网格大小(米)", 100, 500, 200)
-            #     try:
-            #         df = plot_origin_destination_heatmap(self.nav_data, grid_size)
-            #         st.pyplot(plt.gcf())
-            #         with st.expander("查看详细数据"):
-            #             st.dataframe(df)
-            #     except Exception as e:
-            #         error_msg = f"生成热力图时出错: {str(e)}"
-            #         st.error(error_msg)
-            #         logger.error(error_msg, exc_info=True)
+                        self.logger.error(error_msg, exc_info=True)
                     
         except Exception as e:
             error_msg = f"导航数据可视化失败: {str(e)}"
             st.error(error_msg)
-            logger.error(error_msg, exc_info=True)
+            self.logger.error(error_msg, exc_info=True)

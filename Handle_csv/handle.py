@@ -17,7 +17,8 @@ from scenario.navigation.basic_info import navi_info
 
 def get_target_info(Navi_info:navi_info, scenario_type):
     config = Navi_info.config
-    navi_data = Navi_info.Get_json_info()['poi_info_list']
+    navi_info = Navi_info.Get_json_info()
+    navi_data = navi_info['poi_info_list']
     str_navi_data = str(navi_data)
     if scenario_type == 'navigation_json':
         print("Processing navigation scenario...")
