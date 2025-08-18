@@ -1,2 +1,0 @@
-2025-08-15 17:19:51,510 - dashboard_app - logger_setup:setup_logger:43 - INFO - 服务启动，日志存储目录：Logger/20250815_171951
-2025-08-15 17:19:51,628 - dashboard_app - cache_manager:_load_offline_cache:28 - INFO - 成功加载离线缓存，包含 1 个文件缓存

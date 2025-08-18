@@ -7,6 +7,7 @@ from modules.data_statistics import DataStatisticsModule
 from modules.data_visualization import DataVisualizationModule
 from modules.navigation_visualization import NavigationVisualizationModule
 from modules.navigation_map_module import NavigationMapModule
+from modules.navigation_knowledge_graph import NavigationKnowledgeGraphModule
 from modules.data_filter import DataFilterModule
 from utils.logger_setup import setup_logger
 from utils.cache_manager import cache_manager  # 导入离线缓存管理器
@@ -32,8 +33,9 @@ class DashboardApp:
     def _initialize_modules(self) -> None:
         """初始化所有功能模块"""
         self.modules = [
-            NavigationVisualizationModule(width=100),
-            NavigationMapModule(width=100)
+            # NavigationVisualizationModule(width=100),
+            # NavigationMapModule(width=100),
+            NavigationKnowledgeGraphModule(width=100)  # 新增知识图谱模块
         ]
         
     def _load_data(self) -> None:

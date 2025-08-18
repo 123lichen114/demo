@@ -1,0 +1,15 @@
+2025-08-18 11:28:33,825 - dashboard_app - logger_setup:setup_logger:43 - INFO - 服务启动，日志存储目录：Logger/20250818_112833
+2025-08-18 11:28:33,937 - dashboard_app - cache_manager:_load_offline_cache:28 - INFO - 成功加载离线缓存，包含 1 个文件缓存
+2025-08-18 11:28:40,680 - dashboard_app - app:_load_data:62 - INFO - 新文件保存到离线缓存: all_sequence_HLX14B178R0001811_24.csv
+2025-08-18 11:28:45,158 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-18 11:28:45,205 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-18 11:29:21,628 - dashboard_app - app:_load_data:57 - INFO - 从离线缓存加载文件: all_sequence_HLX14B178R0001811_merged.csv
+2025-08-18 11:29:32,386 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-18 11:29:32,961 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-18 11:34:45,526 - dashboard_app - app:_load_data:62 - INFO - 新文件保存到离线缓存: all_sequence_HLX14B178R0001811_30.csv
+2025-08-18 11:34:49,550 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-18 11:34:49,603 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-18 11:35:52,838 - dashboard_app - cache_manager:_load_offline_cache:28 - INFO - 成功加载离线缓存，包含 3 个文件缓存
+2025-08-18 11:35:52,992 - dashboard_app - app:_load_data:57 - INFO - 从离线缓存加载文件: all_sequence_HLX14B178R0001811_30.csv
+2025-08-18 11:35:53,031 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-18 11:35:53,062 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
