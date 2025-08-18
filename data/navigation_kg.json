@@ -1,0 +1,589 @@
+{
+  "nodes": [
+    {
+      "id": "user_current_user",
+      "type": "user",
+      "label": "用户current_user",
+      "entity_type": "用户"
+    },
+    {
+      "id": "loc_start_0",
+      "type": "start",
+      "label": "起点0",
+      "coordinates": "121.319173,31.158371",
+      "address": "起点0",
+      "entity_type": "地点"
+    },
+    {
+      "id": "loc_poi_0",
+      "type": "poi",
+      "label": "华敏世纪广场",
+      "coordinates": "121.370007,31.192397",
+      "address": "华敏世纪广场",
+      "entity_type": "地点"
+    },
+    {
+      "id": "time_start_0",
+      "type": "timestamp",
+      "label": "2025-06-20 19:23:40",
+      "hour": 19,
+      "weekday": 4,
+      "date": "2025-06-20",
+      "entity_type": "时间"
+    },
+    {
+      "id": "time_end_0",
+      "type": "timestamp",
+      "label": "2025-06-20 19:49:18",
+      "hour": 19,
+      "weekday": 4,
+      "date": "2025-06-20",
+      "entity_type": "时间"
+    },
+    {
+      "id": "event_0",
+      "type": "navigation",
+      "label": "导航事件0",
+      "duration": 25.631483333333332,
+      "entity_type": "导航事件"
+    },
+    {
+      "id": "loc_start_1",
+      "type": "start",
+      "label": "起点1",
+      "coordinates": "121.370007,31.192397",
+      "address": "起点1",
+      "entity_type": "地点"
+    },
+    {
+      "id": "loc_poi_1",
+      "type": "poi",
+      "label": "上海静安香格里拉大酒店(东门)",
+      "coordinates": "121.25387996435163,31.111455352535565",
+      "address": "上海静安香格里拉大酒店(东门)",
+      "entity_type": "地点"
+    },
+    {
+      "id": "time_start_1",
+      "type": "timestamp",
+      "label": "2025-07-05 14:42:13",
+      "hour": 14,
+      "weekday": 5,
+      "date": "2025-07-05",
+      "entity_type": "时间"
+    },
+    {
+      "id": "time_end_1",
+      "type": "timestamp",
+      "label": "2025-07-05 15:49:39",
+      "hour": 15,
+      "weekday": 5,
+      "date": "2025-07-05",
+      "entity_type": "时间"
+    },
+    {
+      "id": "event_1",
+      "type": "navigation",
+      "label": "导航事件1",
+      "duration": 67.43318333333333,
+      "entity_type": "导航事件"
+    },
+    {
+      "id": "loc_start_2",
+      "type": "start",
+      "label": "起点2",
+      "coordinates": "121.25387996435163,31.111455352535565",
+      "address": "起点2",
+      "entity_type": "地点"
+    },
+    {
+      "id": "loc_poi_2",
+      "type": "poi",
+      "label": "水城路与茅台路交叉口",
+      "coordinates": "121.450637,31.223025",
+      "address": "水城路与茅台路交叉口",
+      "entity_type": "地点"
+    },
+    {
+      "id": "time_start_2",
+      "type": "timestamp",
+      "label": "2025-07-05 17:43:17",
+      "hour": 17,
+      "weekday": 5,
+      "date": "2025-07-05",
+      "entity_type": "时间"
+    },
+    {
+      "id": "time_end_2",
+      "type": "timestamp",
+      "label": "2025-07-05 18:00:21",
+      "hour": 18,
+      "weekday": 5,
+      "date": "2025-07-05",
+      "entity_type": "时间"
+    },
+    {
+      "id": "event_2",
+      "type": "navigation",
+      "label": "导航事件2",
+      "duration": 17.067833333333333,
+      "entity_type": "导航事件"
+    },
+    {
+      "id": "loc_start_3",
+      "type": "start",
+      "label": "起点3",
+      "coordinates": "121.450637,31.223025",
+      "address": "起点3",
+      "entity_type": "地点"
+    },
+    {
+      "id": "loc_poi_3",
+      "type": "poi",
+      "label": "金地西郊风华",
+      "coordinates": "121.391044,31.21021",
+      "address": "金地西郊风华",
+      "entity_type": "地点"
+    },
+    {
+      "id": "time_start_3",
+      "type": "timestamp",
+      "label": "2025-07-05 18:14:29",
+      "hour": 18,
+      "weekday": 5,
+      "date": "2025-07-05",
+      "entity_type": "时间"
+    },
+    {
+      "id": "time_end_3",
+      "type": "timestamp",
+      "label": "2025-07-05 18:50:42",
+      "hour": 18,
+      "weekday": 5,
+      "date": "2025-07-05",
+      "entity_type": "时间"
+    },
+    {
+      "id": "event_3",
+      "type": "navigation",
+      "label": "导航事件3",
+      "duration": 36.21385,
+      "entity_type": "导航事件"
+    },
+    {
+      "id": "loc_start_4",
+      "type": "start",
+      "label": "起点4",
+      "coordinates": "121.391044,31.21021",
+      "address": "起点4",
+      "entity_type": "地点"
+    },
+    {
+      "id": "loc_poi_4",
+      "type": "poi",
+      "label": "上海虹桥国际机场2号航站楼P6停车场",
+      "coordinates": "121.25388,31.111455",
+      "address": "上海虹桥国际机场2号航站楼P6停车场",
+      "entity_type": "地点"
+    },
+    {
+      "id": "time_start_4",
+      "type": "timestamp",
+      "label": "2025-07-06 13:13:26",
+      "hour": 13,
+      "weekday": 6,
+      "date": "2025-07-06",
+      "entity_type": "时间"
+    },
+    {
+      "id": "time_end_4",
+      "type": "timestamp",
+      "label": "2025-07-06 13:48:23",
+      "hour": 13,
+      "weekday": 6,
+      "date": "2025-07-06",
+      "entity_type": "时间"
+    },
+    {
+      "id": "event_4",
+      "type": "navigation",
+      "label": "导航事件4",
+      "duration": 34.939733333333336,
+      "entity_type": "导航事件"
+    },
+    {
+      "id": "loc_start_5",
+      "type": "start",
+      "label": "起点5",
+      "coordinates": "121.25388,31.111455",
+      "address": "起点5",
+      "entity_type": "地点"
+    },
+    {
+      "id": "loc_poi_5",
+      "type": "poi",
+      "label": "金地西郊风华",
+      "coordinates": "121.326179,31.195514",
+      "address": "金地西郊风华",
+      "entity_type": "地点"
+    },
+    {
+      "id": "time_start_5",
+      "type": "timestamp",
+      "label": "2025-07-06 14:02:42",
+      "hour": 14,
+      "weekday": 6,
+      "date": "2025-07-06",
+      "entity_type": "时间"
+    },
+    {
+      "id": "time_end_5",
+      "type": "timestamp",
+      "label": "2025-07-06 14:29:44",
+      "hour": 14,
+      "weekday": 6,
+      "date": "2025-07-06",
+      "entity_type": "时间"
+    },
+    {
+      "id": "event_5",
+      "type": "navigation",
+      "label": "导航事件5",
+      "duration": 27.027866666666668,
+      "entity_type": "导航事件"
+    },
+    {
+      "id": "loc_start_6",
+      "type": "start",
+      "label": "起点6",
+      "coordinates": "121.326179,31.195514",
+      "address": "起点6",
+      "entity_type": "地点"
+    },
+    {
+      "id": "loc_poi_6",
+      "type": "poi",
+      "label": "上海静安凯宾斯基全套房酒店",
+      "coordinates": "121.25388,31.111455",
+      "address": "上海静安凯宾斯基全套房酒店",
+      "entity_type": "地点"
+    },
+    {
+      "id": "time_start_6",
+      "type": "timestamp",
+      "label": "2025-07-06 20:25:33",
+      "hour": 20,
+      "weekday": 6,
+      "date": "2025-07-06",
+      "entity_type": "时间"
+    },
+    {
+      "id": "time_end_6",
+      "type": "timestamp",
+      "label": "2025-07-06 21:21:16",
+      "hour": 21,
+      "weekday": 6,
+      "date": "2025-07-06",
+      "entity_type": "时间"
+    },
+    {
+      "id": "event_6",
+      "type": "navigation",
+      "label": "导航事件6",
+      "duration": 55.719950000000004,
+      "entity_type": "导航事件"
+    },
+    {
+      "id": "loc_start_7",
+      "type": "start",
+      "label": "起点7",
+      "coordinates": "121.25388,31.111455",
+      "address": "起点7",
+      "entity_type": "地点"
+    },
+    {
+      "id": "loc_poi_7",
+      "type": "poi",
+      "label": "金地褐石苑C区",
+      "coordinates": "121.25387996435163,31.111455352535565",
+      "address": "金地褐石苑C区",
+      "entity_type": "地点"
+    },
+    {
+      "id": "time_start_7",
+      "type": "timestamp",
+      "label": "2025-07-20 10:32:51",
+      "hour": 10,
+      "weekday": 6,
+      "date": "2025-07-20",
+      "entity_type": "时间"
+    },
+    {
+      "id": "time_end_7",
+      "type": "timestamp",
+      "label": "2025-07-20 10:37:42",
+      "hour": 10,
+      "weekday": 6,
+      "date": "2025-07-20",
+      "entity_type": "时间"
+    },
+    {
+      "id": "event_7",
+      "type": "navigation",
+      "label": "导航事件7",
+      "duration": 4.851533333333333,
+      "entity_type": "导航事件"
+    }
+  ],
+  "edges": [
+    {
+      "source": "user_current_user",
+      "target": "event_0",
+      "relation": "发起"
+    },
+    {
+      "source": "user_current_user",
+      "target": "event_1",
+      "relation": "发起"
+    },
+    {
+      "source": "user_current_user",
+      "target": "event_2",
+      "relation": "发起"
+    },
+    {
+      "source": "user_current_user",
+      "target": "event_3",
+      "relation": "发起"
+    },
+    {
+      "source": "user_current_user",
+      "target": "event_4",
+      "relation": "发起"
+    },
+    {
+      "source": "user_current_user",
+      "target": "event_5",
+      "relation": "发起"
+    },
+    {
+      "source": "user_current_user",
+      "target": "event_6",
+      "relation": "发起"
+    },
+    {
+      "source": "user_current_user",
+      "target": "event_7",
+      "relation": "发起"
+    },
+    {
+      "source": "loc_poi_0",
+      "target": "loc_start_1",
+      "relation": "后续地点",
+      "avg_interval": 21292.922183333332,
+      "weight": 1.0
+    },
+    {
+      "source": "event_0",
+      "target": "loc_start_0",
+      "relation": "从...出发"
+    },
+    {
+      "source": "event_0",
+      "target": "loc_poi_0",
+      "relation": "前往..."
+    },
+    {
+      "source": "event_0",
+      "target": "time_start_0",
+      "relation": "开始于"
+    },
+    {
+      "source": "event_0",
+      "target": "time_end_0",
+      "relation": "结束于"
+    },
+    {
+      "source": "loc_poi_1",
+      "target": "loc_start_2",
+      "relation": "后续地点",
+      "avg_interval": 113.6254,
+      "weight": 1.0
+    },
+    {
+      "source": "event_1",
+      "target": "loc_start_1",
+      "relation": "从...出发"
+    },
+    {
+      "source": "event_1",
+      "target": "loc_poi_1",
+      "relation": "前往..."
+    },
+    {
+      "source": "event_1",
+      "target": "time_start_1",
+      "relation": "开始于"
+    },
+    {
+      "source": "event_1",
+      "target": "time_end_1",
+      "relation": "结束于"
+    },
+    {
+      "source": "loc_poi_2",
+      "target": "loc_start_3",
+      "relation": "后续地点",
+      "avg_interval": 14.13775,
+      "weight": 1.0
+    },
+    {
+      "source": "event_2",
+      "target": "loc_start_2",
+      "relation": "从...出发"
+    },
+    {
+      "source": "event_2",
+      "target": "loc_poi_2",
+      "relation": "前往..."
+    },
+    {
+      "source": "event_2",
+      "target": "time_start_2",
+      "relation": "开始于"
+    },
+    {
+      "source": "event_2",
+      "target": "time_end_2",
+      "relation": "结束于"
+    },
+    {
+      "source": "loc_poi_3",
+      "target": "loc_start_4",
+      "relation": "后续地点",
+      "avg_interval": 1102.7413666666666,
+      "weight": 1.0
+    },
+    {
+      "source": "event_3",
+      "target": "loc_start_3",
+      "relation": "从...出发"
+    },
+    {
+      "source": "event_3",
+      "target": "loc_poi_3",
+      "relation": "前往..."
+    },
+    {
+      "source": "event_3",
+      "target": "time_start_3",
+      "relation": "开始于"
+    },
+    {
+      "source": "event_3",
+      "target": "time_end_3",
+      "relation": "结束于"
+    },
+    {
+      "source": "loc_poi_4",
+      "target": "loc_start_5",
+      "relation": "后续地点",
+      "avg_interval": 14.32615,
+      "weight": 1.0
+    },
+    {
+      "source": "event_4",
+      "target": "loc_start_4",
+      "relation": "从...出发"
+    },
+    {
+      "source": "event_4",
+      "target": "loc_poi_4",
+      "relation": "前往..."
+    },
+    {
+      "source": "event_4",
+      "target": "time_start_4",
+      "relation": "开始于"
+    },
+    {
+      "source": "event_4",
+      "target": "time_end_4",
+      "relation": "结束于"
+    },
+    {
+      "source": "loc_poi_5",
+      "target": "loc_start_6",
+      "relation": "后续地点",
+      "avg_interval": 355.82238333333333,
+      "weight": 1.0
+    },
+    {
+      "source": "event_5",
+      "target": "loc_start_5",
+      "relation": "从...出发"
+    },
+    {
+      "source": "event_5",
+      "target": "loc_poi_5",
+      "relation": "前往..."
+    },
+    {
+      "source": "event_5",
+      "target": "time_start_5",
+      "relation": "开始于"
+    },
+    {
+      "source": "event_5",
+      "target": "time_end_5",
+      "relation": "结束于"
+    },
+    {
+      "source": "loc_poi_6",
+      "target": "loc_start_7",
+      "relation": "后续地点",
+      "avg_interval": 19511.581033333332,
+      "weight": 1.0
+    },
+    {
+      "source": "event_6",
+      "target": "loc_start_6",
+      "relation": "从...出发"
+    },
+    {
+      "source": "event_6",
+      "target": "loc_poi_6",
+      "relation": "前往..."
+    },
+    {
+      "source": "event_6",
+      "target": "time_start_6",
+      "relation": "开始于"
+    },
+    {
+      "source": "event_6",
+      "target": "time_end_6",
+      "relation": "结束于"
+    },
+    {
+      "source": "event_7",
+      "target": "loc_start_7",
+      "relation": "从...出发"
+    },
+    {
+      "source": "event_7",
+      "target": "loc_poi_7",
+      "relation": "前往..."
+    },
+    {
+      "source": "event_7",
+      "target": "time_start_7",
+      "relation": "开始于"
+    },
+    {
+      "source": "event_7",
+      "target": "time_end_7",
+      "relation": "结束于"
+    }
+  ]
+}

@@ -98,8 +98,8 @@ class NavigationKnowledgeGraphModule(BaseModule):
         
         # 图谱可视化
         st.subheader("导航知识图谱可视化")
-        st.caption("实体类型: 用户(蓝) | 地点(绿) | 时间(黄) | 导航事件(红)")
-        st.components.v1.html(self.visualization_buf.getvalue().decode(), height=600)
+        # st.caption("实体类型: 用户(蓝) | 地点(绿) | 时间(黄) | 导航事件(红)")
+        st.components.v1.html(self.visualization_buf.getvalue().decode(), height=800)
         
         # 预测分析
         self.render_prediction_analysis()
@@ -108,11 +108,4 @@ class NavigationKnowledgeGraphModule(BaseModule):
         col1, col2 = st.columns(2)
         with col1:
             if st.button("导出图谱数据(JSON)"):
-                buf = BytesIO()
-                self.kg.export_to_json(buf)
-                st.download_button(
-                    "下载JSON文件",
-                    data=buf,
-                    file_name=f"navigation_kg_{self.current_filename}.json",
-                    mime="application/json"
-                )
+                self.kg.export_to_json('./data/navigation_kg.json')

@@ -1,0 +1,4 @@
+2025-08-18 17:56:02,130 - dashboard_app - logger_setup:setup_logger:43 - INFO - 服务启动，日志存储目录：Logger/20250818_175602
+2025-08-18 17:56:29,185 - dashboard_app - app:_load_data:62 - INFO - 新文件保存到离线缓存: some_sequence_HLX14B178R0001811_merged.csv
+2025-08-18 17:56:34,943 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-18 17:56:35,068 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
