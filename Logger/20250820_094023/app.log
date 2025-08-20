@@ -1,0 +1,11 @@
+2025-08-20 09:40:23,701 - dashboard_app - logger_setup:setup_logger:43 - INFO - 服务启动，日志存储目录：Logger/20250820_094023
+2025-08-20 09:40:23,979 - dashboard_app - cache_manager:_load_offline_cache:28 - INFO - 成功加载离线缓存，包含 2 个文件缓存
+2025-08-20 09:40:45,256 - dashboard_app - app:_load_data:57 - INFO - 从离线缓存加载文件: all_sequence_HLX14B178R0001811_merged.csv
+2025-08-20 09:40:57,477 - dashboard_app - navigation_visualization:process_data:39 - INFO - 导航数据处理成功
+2025-08-20 09:40:58,483 - dashboard_app - navigation_map_module:process_data:41 - INFO - 导航地图生成耗时: 1.00秒
+2025-08-20 09:40:58,484 - dashboard_app - navigation_map_module:process_data:42 - INFO - 成功加载 20 张每日导航地图
+2025-08-20 09:40:59,470 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-20 09:41:00,343 - dashboard_app - navigation_visualization:process_data:39 - INFO - 导航数据处理成功
+2025-08-20 09:43:00,709 - dashboard_app - navigation_map_module:process_data:41 - INFO - 导航地图生成耗时: 0.76秒
+2025-08-20 09:43:00,710 - dashboard_app - navigation_map_module:process_data:42 - INFO - 成功加载 20 张每日导航地图
+2025-08-20 09:43:01,669 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功

@@ -543,157 +543,49 @@ def plot_destination_type_pie(nav_data: List[Dict[str, Any]]) -> None:
 #             return buf
 
 def generate_kg_visualization(self) -> BytesIO:
-        """生成树状时间线图谱（突出用户节点，按时间树状排列）"""
-        # 初始化网络，使用垂直方向树状布局
+        """生成交互式图谱可视化（修复BytesIO保存问题）"""
         net = Network(
-            height="800px",
+            height="600px",
             width="100%",
-            bgcolor="#ffffff",
-            font_color="#333333",
-            directed=True,
-            layout=True
+            bgcolor="#f8f9fa",
+            font_color="black",
+            directed=True
         )
         
-        # 定义实体样式（强化用户节点突出度）
         color_map = {
-            "用户": {"color": "#2c3e50", "size": 40, "shape": "circularImage"},  # 深色大节点突出
-            "地点": {"color": "#3498db", "size": 20, "shape": "box"},
-            "时间": {"color": "#f1c40f", "size": 18, "shape": "ellipse"},
-            "导航事件": {"color": "#e74c3c", "size": 25, "shape": "diamond"}
+            "用户": "#4285f4",
+            "地点": "#34a853",
+            "时间": "#fbbc05",
+            "导航事件": "#ea4335"
         }
         
-        # 1. 提取并排序导航事件（按时间）
-        event_nodes = []
         for node, data in self.graph.nodes(data=True):
-            if data.get("entity_type") == "导航事件":
-                # 找到事件关联的开始时间
-                for _, end_node, edge_data in self.graph.out_edges(node, data=True):
-                    if edge_data.get("relation") == "开始于":
-                        time_node = end_node
-                        time_data = self.graph.nodes[time_node]
-                        try:
-                            time_str = time_data.get("label", "")
-                            if '.' in time_str:
-                                time_str = time_str.split('.')[0]
-                            time_obj = datetime.fromisoformat(time_str)
-                            event_nodes.append((node, time_obj, time_node))
-                        except Exception:
-                            continue
-                        break
-        
-        # 按时间排序事件
-        event_nodes.sort(key=lambda x: x[1])
-        # 分配事件层级（用户为根节点，事件按时间顺序为第一级子节点）
-        event_level = {node: 2 for node, _, _ in event_nodes}  # 事件在第2层
-        time_mapping = {node: time_node for node, _, time_node in event_nodes}  # 事件-时间映射
-        
-        # 2. 添加节点（按树状层级组织）
-        user_node = None
-        # 先找到用户节点
-        for node, data in self.graph.nodes(data=True):
-            if data.get("entity_type") == "用户":
-                user_node = node
-                break
-        
-        # 添加所有节点并设置层级
-        for node, data in self.graph.nodes(data=True):
+            # 使用get方法避免KeyError
             entity_type = data.get("entity_type", "未知")
-            style = color_map.get(entity_type, {"color": "#95a5a6", "size": 18, "shape": "circle"})
-            
-            # 层级设计：
-            # - 用户节点：层级1（根节点）
-            # - 导航事件：层级2（按时间顺序排列）
-            # - 时间/地点：层级3（事件的子节点）
-            level = 1 if entity_type == "用户" else \
-                    event_level.get(node, 3)  # 事件为2级，其他为3级
-            
-            # 为地点/时间节点设置父级（关联的事件）
-            parent = None
-            if entity_type in ["地点", "时间"]:
-                # 找到关联的事件作为父节点
-                for pred in self.graph.predecessors(node):
-                    if self.graph.nodes[pred].get("entity_type") == "导航事件":
-                        parent = pred
-                        break
-            
             net.add_node(
                 node,
                 label=data.get("label", node),
-                color=style["color"],
-                size=style["size"],
-                shape=style["shape"],
-                level=level,
-                parent=parent,  # 树状结构的父节点关联
+                color=color_map.get(entity_type, "#80868b"),
                 title=f"{entity_type}: {data.get('label', node)}\n{json.dumps({k: v for k, v in data.items() if k not in ['label', 'entity_type']}, ensure_ascii=False)}"
             )
         
-        # 3. 添加边（强化树状关系）
         for u, v, data in self.graph.edges(data=True):
-            # 特殊处理用户到事件的边（主树干）
-            u_type = self.graph.nodes[u].get("entity_type")
-            v_type = self.graph.nodes[v].get("entity_type")
-            
-            # 样式区分：用户到事件的边加粗
-            width = 4 if (u_type == "用户" and v_type == "导航事件") else 2
-            
             net.add_edge(
                 u, v,
                 label=data.get("relation", ""),
-                title=f"{data.get('relation', '')}" + (f"\n间隔: {data.get('avg_interval'):.1f}分钟" if "avg_interval" in data else ""),
-                width=width,
-                smooth={"type": "vertical", "forceDirection": "vertical"},  # 垂直方向平滑曲线
-                color={"color": "#7f8c8d" if width == 2 else "#2c3e50"}  # 主树干深色
+                title=f"{data.get('relation', '')}" + (f"\n间隔: {data.get('avg_interval'):.1f}分钟" if "avg_interval" in data else "")
             )
         
-        # 4. 树状布局配置（从上到下按时间顺序）
-        # net.set_options('''
-        # {
-        #     "layout": {
-        #         "hierarchical": {
-        #             "enabled": true,
-        #             "direction": "UD", 
-        #             "levelSeparation": 180,  
-        #             "nodeSpacing": 120,  
-        #             "treeSpacing": 200, 
-        #             "blockShifting": true,
-        #             "edgeMinimization": true,
-        #             "parentCentralization": true 
-        #         }
-        #     },
-        #     "edges": {
-        #         "shadow": false,
-        #         "arrows": {
-        #             "to": {
-        #                 "enabled": true,
-        #                 "scaleFactor": 0.8
-        #             }
-        #         }
-        #     },
-        #     "nodes": {
-        #         "shadow": true,
-        #         "font": {
-        #             "size": 12,
-        #             "color": "#2c3e50"
-        #         },
-        #         "borderWidth": 2
-        #     },
-        #     "interaction": {
-        #         "hover": true,
-        #         "tooltipDelay": 200,
-        #         "dragNodes": true,
-        #         "zoomView": true,
-        #         "selectConnectedEdges": false
-        #     }
-        # }
-        # ''')
-        
-        # 保存到临时文件再转为BytesIO
+        # 修复：使用临时文件中转
         try:
+            # 创建临时文件
             with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.html') as tmp:
                 temp_filename = tmp.name
             
+            # 保存到临时文件
             net.save_graph(temp_filename)
             
+            # 读取临时文件内容到BytesIO
             buf = BytesIO()
             with open(temp_filename, 'rb') as f:
                 buf.write(f.read())
@@ -701,6 +593,7 @@ def generate_kg_visualization(self) -> BytesIO:
             
             return buf
         finally:
+            # 确保临时文件被删除
             if os.path.exists(temp_filename):
                 os.remove(temp_filename)
 

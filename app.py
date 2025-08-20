@@ -33,8 +33,8 @@ class DashboardApp:
     def _initialize_modules(self) -> None:
         """初始化所有功能模块"""
         self.modules = [
-            # NavigationVisualizationModule(width=100),
-            # NavigationMapModule(width=100),
+            NavigationVisualizationModule(width=100),
+            NavigationMapModule(width=100),
             NavigationKnowledgeGraphModule(width=100)  # 新增知识图谱模块
         ]
         

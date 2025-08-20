@@ -1,0 +1,20 @@
+2025-08-19 08:59:01,777 - dashboard_app - logger_setup:setup_logger:43 - INFO - 服务启动，日志存储目录：Logger/20250819_085901
+2025-08-19 08:59:08,954 - dashboard_app - app:_load_data:62 - INFO - 新文件保存到离线缓存: some_sequence_HLX14B178R0001811_merged.csv
+2025-08-19 08:59:13,670 - dashboard_app - navigation_knowledge_graph:process_data:46 - ERROR - 构建知识图谱失败: name 'event_level' is not defined
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_knowledge_graph.py", line 40, in process_data
+    self.visualization_buf = self.kg.generate_visualization()
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/knowledge_graph.py", line 361, in generate_visualization
+    return generate_kg_visualization(self)
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/visualization.py", line 608, in generate_kg_visualization
+    event_level.get(node, 3)  # 事件为2级，其他为3级
+NameError: name 'event_level' is not defined
+2025-08-19 08:59:13,735 - dashboard_app - navigation_knowledge_graph:process_data:46 - ERROR - 构建知识图谱失败: name 'event_level' is not defined
+Traceback (most recent call last):
+  File "/Users/lichen18/Documents/Project/demo/modules/navigation_knowledge_graph.py", line 40, in process_data
+    self.visualization_buf = self.kg.generate_visualization()
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/knowledge_graph.py", line 361, in generate_visualization
+    return generate_kg_visualization(self)
+  File "/Users/lichen18/Documents/Project/demo/Handle_csv/scenario/navigation/visualization.py", line 608, in generate_kg_visualization
+    event_level.get(node, 3)  # 事件为2级，其他为3级
+NameError: name 'event_level' is not defined

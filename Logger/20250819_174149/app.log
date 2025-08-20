@@ -1,0 +1,29 @@
+2025-08-19 17:41:49,474 - dashboard_app - logger_setup:setup_logger:43 - INFO - 服务启动，日志存储目录：Logger/20250819_174149
+2025-08-19 17:41:49,494 - dashboard_app - cache_manager:_load_offline_cache:28 - INFO - 成功加载离线缓存，包含 1 个文件缓存
+2025-08-19 17:42:01,441 - dashboard_app - app:_load_data:57 - INFO - 从离线缓存加载文件: some_sequence_HLX14B178R0001811_merged.csv
+2025-08-19 17:42:08,320 - dashboard_app - navigation_visualization:process_data:39 - INFO - 导航数据处理成功
+2025-08-19 17:42:08,406 - dashboard_app - navigation_map_module:process_data:41 - INFO - 导航地图生成耗时: 0.08秒
+2025-08-19 17:42:08,406 - dashboard_app - navigation_map_module:process_data:42 - INFO - 成功加载 4 张每日导航地图
+2025-08-19 17:42:08,538 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-19 17:42:08,602 - dashboard_app - navigation_visualization:process_data:39 - INFO - 导航数据处理成功
+2025-08-19 17:42:23,461 - dashboard_app - navigation_map_module:process_data:41 - INFO - 导航地图生成耗时: 0.09秒
+2025-08-19 17:42:23,461 - dashboard_app - navigation_map_module:process_data:42 - INFO - 成功加载 4 张每日导航地图
+2025-08-19 17:42:23,596 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-20 08:46:25,091 - dashboard_app - app:_load_data:57 - INFO - 从离线缓存加载文件: some_sequence_HLX14B178R0001811_merged.csv
+2025-08-20 08:46:25,163 - dashboard_app - navigation_visualization:process_data:39 - INFO - 导航数据处理成功
+2025-08-20 08:46:25,236 - dashboard_app - navigation_map_module:process_data:41 - INFO - 导航地图生成耗时: 0.07秒
+2025-08-20 08:46:25,236 - dashboard_app - navigation_map_module:process_data:42 - INFO - 成功加载 4 张每日导航地图
+2025-08-20 08:46:25,345 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-20 08:46:25,391 - dashboard_app - navigation_visualization:process_data:39 - INFO - 导航数据处理成功
+2025-08-20 08:46:39,366 - dashboard_app - navigation_map_module:process_data:41 - INFO - 导航地图生成耗时: 0.05秒
+2025-08-20 08:46:39,366 - dashboard_app - navigation_map_module:process_data:42 - INFO - 成功加载 4 张每日导航地图
+2025-08-20 08:46:39,549 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-20 08:47:18,479 - dashboard_app - app:_load_data:62 - INFO - 新文件保存到离线缓存: all_sequence_HLX14B178R0001811_merged.csv
+2025-08-20 08:47:28,577 - dashboard_app - navigation_visualization:process_data:39 - INFO - 导航数据处理成功
+2025-08-20 08:47:29,414 - dashboard_app - navigation_map_module:process_data:41 - INFO - 导航地图生成耗时: 0.84秒
+2025-08-20 08:47:29,414 - dashboard_app - navigation_map_module:process_data:42 - INFO - 成功加载 20 张每日导航地图
+2025-08-20 08:47:30,193 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
+2025-08-20 08:47:30,960 - dashboard_app - navigation_visualization:process_data:39 - INFO - 导航数据处理成功
+2025-08-20 08:49:31,792 - dashboard_app - navigation_map_module:process_data:41 - INFO - 导航地图生成耗时: 0.99秒
+2025-08-20 08:49:31,793 - dashboard_app - navigation_map_module:process_data:42 - INFO - 成功加载 20 张每日导航地图
+2025-08-20 08:49:32,777 - dashboard_app - navigation_knowledge_graph:process_data:42 - INFO - 导航知识图谱构建成功
